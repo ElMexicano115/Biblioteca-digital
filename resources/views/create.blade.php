@@ -25,7 +25,7 @@
         </div>
         <div class="container bg-primary-subtle border border-black border-5 text-center mt-3">
             <h1>Nuevo libro</h1>
-            <form action="{{ route('libros.store') }}" method="POST">
+            <form action="{{ route('libros.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
