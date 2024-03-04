@@ -32,27 +32,14 @@ class LibroController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the request data, including the file upload
-        $request->validate([
-            'nombre' => 'required',
-            'autor' => 'required',
-            'fecha_publicacion' => 'required|date',
-            'editorial' => 'required',
-            'portada' => 'required|image', // Ensure portada is an image file
-        ]);
-        
         // Crea un nuevo libro con los datos del formulario
         $libro = new libros();
-
-        // Retrieve the uploaded file
-        $portadaPath = $request->file('portada')->store('public/uploads');
-
         $libro->nombre = $request->nombre;
         $libro->autor = $request->autor;
         $libro->fecha_publicacion = $request->fecha_publicacion;
         $libro->editorial = $request->editorial;
-        $libro->portada = $portadaPath; // Store the file path, not the file itself
-        Storage::disk('local')->put('/public'.$libro->portada , $libro->portada);
+        $libro->portada = $request->file('portada')->getClientOriginalName();
+        Storage::disk('local')->put($libro->portada , $libro->portada);
         $libro->save();
 
         // Redirecciona al usuario de vuelta al formulario de creación con un mensaje de éxito
